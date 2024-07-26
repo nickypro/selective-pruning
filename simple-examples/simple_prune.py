@@ -76,7 +76,7 @@ def get_activation_data(m: Model, dataset_name: str, split: str = 'train', num_t
     }
 
 @torch.no_grad
-def run_selective_pruning(m:Model, retain_dataset:str, forget_dataset:str, mlp_frac:float=0.1, attn_frac:float=0.0, sample_size:int=1e5):
+def run_selective_pruning(m:Model, retain_dataset:str, forget_dataset:str, mlp_frac:float, attn_frac:float, sample_size:int=1e5):
     print(f"Running selective pruning with mlp_frac = {mlp_frac}, attn_frac = {attn_frac}")
     print(f"Retain dataset: {retain_dataset}, Forget dataset: {forget_dataset}")
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     # NOTE: dataset_tokens_to_skip only required because the "code" dataset has no explicit "test" split. TODO: upload pre-split dataset
 
     print("## Running selective pruning procedure")
-    run_selective_pruning(m, retain_dataset, forget_dataset, mlp_frac=0.1, attn_frac=0, sample_size=collect_sample_size)
+    run_selective_pruning(m, retain_dataset, forget_dataset, mlp_frac=mlp_frac, attn_frac=attn_frac, sample_size=collect_sample_size)
 
     print("## Running evaluation after pruning")
     results_after = evaluate_all(m, sample_size=eval_sample_size, datasets=all_datasets, dataset_tokens_to_skip=collect_sample_size)
